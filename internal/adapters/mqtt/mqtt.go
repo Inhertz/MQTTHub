@@ -29,5 +29,4 @@ func (mqtta Adapter) Run(settings []byte, connStr string) {
 		}
 		time.Sleep(time.Second)
 	}
-
 }

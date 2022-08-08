@@ -12,7 +12,7 @@ type DbPort interface {
 	Find(parameter string, value string, modelP interface{}) error
 }
 
-//Serializer is the por for a marshaller adapter (json, bson, msgpack...)
+// Serializer is the por for a marshaller adapter (json, bson, msgpack...)
 type SerializerPort interface {
 	Decode(input []byte, model interface{}) error
 	Encode(input interface{}) ([]byte, error)

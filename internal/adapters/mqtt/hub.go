@@ -3,7 +3,6 @@ package mqtt
 import (
 	"MQTTHub/internal/application"
 	"encoding/json"
-	"fmt"
 	"log"
 
 	paho "github.com/eclipse/paho.mqtt.golang"
@@ -21,16 +20,16 @@ type hubSettings struct {
 	QualityOfService byte   `json:"qualityOfService"`
 }
 
-const (
-	server   = "127.0.0.1"
-	port     = 1883
-	protocol = "tcp"
-)
+// const (
+// 	server   = "127.0.0.1"
+// 	port     = 1883
+// 	protocol = "tcp"
+// )
 
-func GetBroker() string {
-	return fmt.Sprintf("%s://%s:%d",
-		protocol, server, port)
-}
+// func GetBroker() string {
+// 	return fmt.Sprintf("%s://%s:%d",
+// 		protocol, server, port)
+// }
 
 func newHub(settings []byte, connStr string) *hub {
 	var hubSettings hubSettings
