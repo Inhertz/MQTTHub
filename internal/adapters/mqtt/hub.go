@@ -34,14 +34,14 @@ type hubSettings struct {
 func newHub(settings []byte, connStr string) *hub {
 	var hubSettings hubSettings
 	if err := json.Unmarshal(settings, &hubSettings); err != nil {
-		log.Fatalf("fatal error on marshalling hub settings: %v", err)
+		log.Fatalf("error on marshalling hub settings: %v", err)
 	}
 	opts := paho.NewClientOptions()
 	opts.AddBroker(connStr)
 	opts.SetClientID(hubSettings.ClientIdentifier)
 	client := paho.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
-		panic(token.Error())
+		log.Fatalf("error conecting to broker : %v", token.Error())
 	}
 	return &hub{
 		client:   client,
