@@ -23,12 +23,12 @@ func (l Logic) RegComplete(s models.Sensor,
 		err := errors.New("sensor id must be a valid id")
 		return models.Measurement{}, err
 	}
-	m.MeasurementDate = time.Now()
+	m.Date = time.Now()
 	m.IDSensor = s.ID
 	return m, nil
 }
 
-//SplitTopicTree recieves an MQTT topic string and returns a slice of the topic nodes
+// SplitTopicTree recieves an MQTT topic string and returns a slice of the topic nodes
 func (l Logic) SplitTopicTree(s string) ([]string, error) {
 
 	ans := strings.Split(s, "/")

@@ -10,9 +10,11 @@ create table [dbo].[landholdings]([id] int primary key identity(1,1),
   [address] varchar(200),
    [owner] varchar(200));
 go
-create table [dbo].[greenhouse_sizes]([id] int primary key identity(1,1),
- [area] decimal(6,2) not null,
-  [unit] varchar(200) not null);
+create table [dbo].[greenhouse_sizes]([id] int primary key identity(1,1), 
+ [x_max] decimal(6,2) not null,
+  [y_max] decimal(6,2) not null,
+   [area] decimal(6,2) not null,
+    [unit] varchar(200) not null);
 go
 create table [dbo].[greenhouses]([id] int primary key identity(1,1),
  [designation] varchar(200) not null,
@@ -22,7 +24,8 @@ go
 create table [dbo].[sensor_types]([id] int primary key identity(1,1),
  [measurable] varchar(200) not null,
   [brand] varchar(200) not null,
-   [model] varchar(200) not null);
+   [model] varchar(200) not null,
+    [image_link] varchar(max));
 go
 create table [dbo].[sensor_positions]([id] int primary key identity(1,1),
  [x_relative] decimal(6,2) not null,
@@ -43,9 +46,9 @@ create table [dbo].[measurements]([id] int primary key identity(1,1),
 go
 
 create table [dbo].[users]([id] int primary key identity(1,1),
- [username] decimal(5,3) not null,
-  [password_hash] binary(64),
-   [password_salt] varbinary(max),
+ [username] varchar(200) not null,
+  [password_hash] binary(64) not null,
+   [password_salt] varbinary(max) not null,
     [role] varchar(200) not null);
 go
 
@@ -53,19 +56,40 @@ insert into [landholdings]([name], [address], [owner]) values ('La Tormenta', 'M
 go
 insert into [landholdings]([name], [address], [owner]) values ('Pinos Susurrantes', 'Cayambe', 'Marcela Muñoz');
 go
-insert into [greenhouse_sizes]([area], [unit]) values (100, 'metros cuadrados');
+insert into [greenhouse_sizes]([area], [unit], [x_max], [y_max]) values (100, 'metros cuadrados', 10, 10);
 go
-insert into [greenhouse_sizes]([area], [unit]) values (200, 'metros cuadrados');
+insert into [greenhouse_sizes]([area], [unit], [x_max], [y_max]) values (200, 'metros cuadrados', 20, 10);
 go
 insert into [greenhouses]([designation], [id_size], [id_landholding]) values ('Bloque A', 1, 1);
 go
 insert into [greenhouses]([designation], [id_size], [id_landholding]) values ('Bloque B', 2, 2);
 go
-insert into [sensor_types]([measurable], [brand], [model]) values ('temperatura', 'Texas Instruments', 'DS18B20');
+insert into [sensor_types]([measurable], [brand], [model], [image_link]) values ('Temperatura de Suelo', 'Texas Instruments', 'DS18B20', 'https://i.pinimg.com/736x/61/24/df/6124df8ae6b5acfad551a1302d6d4092.jpg');
+go
+insert into [sensor_types]([measurable], [brand], [model], [image_link]) values ('Temperatura de Aire', 'Generico', 'DHT21' , 'https://www.kuongshun-ks.com/uploads/201810680/dht21-am2301-capacitive-digital44321655909.jpg');
+go
+insert into [sensor_types]([measurable], [brand], [model], [image_link]) values ('Humedad de Aire', 'Generico', 'DHT21', 'https://www.kuongshun-ks.com/uploads/201810680/dht21-am2301-capacitive-digital44321655909.jpg');
+go
+insert into [sensor_types]([measurable], [brand], [model], [image_link]) values ('Humedad de Suelo', 'Generico', 'Capacitive_Soil_Moisture_Sensor_1.2', 'https://www.beemong.com/wp-content/uploads/2020/07/FA3003-1-1.jpg');
 go
 insert into [sensor_positions]([x_relative], [y_relative], [unit]) values (5,5, 'metros');
 go
 insert into [sensors]([device_add], [id_sensor_type], [id_greenhouse], [id_position]) values ('ADD123', 1,1,1);
 go
-insert into [measurements]([value], [unit], [date], [id_sensor]) values (20, 'Celcius', '2022-06-06 00:00:00', 1);
+insert into [sensors]([device_add], [id_sensor_type], [id_greenhouse], [id_position]) values ('ADD127', 1,1,1);
+go
+insert into [sensors]([device_add], [id_sensor_type], [id_greenhouse], [id_position]) values ('ADD124', 2,1,1);
+go
+insert into [sensors]([device_add], [id_sensor_type], [id_greenhouse], [id_position]) values ('ADD125', 3,1,1);
+go
+insert into [sensors]([device_add], [id_sensor_type], [id_greenhouse], [id_position]) values ('ADD126', 4,1,1);
+go
+insert into [measurements]([value], [unit], [date], [id_sensor]) values (20, 'Celcius', '2021-06-06 00:00:00', 1);
+go
+
+-- DELETE ON PROD!! only for testing!! {"username":"string", "password":"string"}
+insert into [users]([username],[password_hash],[password_salt],[role]) values ('string',
+ 0x37E813CFD9205D10427AD39C94D55D8351C7E19F916A26E65D3574DCF30750426C85A6956429A30DE028B0D09270F22490279A3CB6A0B02C1596AFE79EECCADD,
+  0xDE3883FA31E6D5A53AF35A596A4F044F9A807F7ADA82DFC22B29D268AAFB48D90F23937E91F03A79006BA65FFDBBF475342763DA5BCAAA5A24611EB378289A8AF157077099126F9BF2F3CD318C11ACCA1E6BFD828721574472F601C373052B39BC20998A47730F85E2E137C0FB8FD329E56A17A6A43C5EFB7F7B7AE8FEDD4392,
+   'admin');
 go
