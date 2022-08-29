@@ -3,6 +3,7 @@ package domain
 import (
 	"MQTTHub/internal/core/models"
 	"errors"
+	"math"
 	"strings"
 	"time"
 )
@@ -25,6 +26,7 @@ func (l Logic) RegComplete(s models.Sensor,
 	}
 	m.Date = time.Now()
 	m.IDSensor = s.ID
+	m.Value = float32(math.Round(float64(m.Value)*100) / 100)
 	return m, nil
 }
 
