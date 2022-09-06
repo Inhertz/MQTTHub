@@ -9,17 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// const (
-// 	server   = "localhost"
-// 	port     = 1433
-// 	user     = "SA"
-// 	password = "Test1234"
-// 	database = "TitDB"
-// )
-
-// // github.com/denisenkom/go-mssqldb
-// var dsn = fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s",
-// 	server, user, password, port, database)
+// github.com/denisenkom/go-mssqldb
 
 type Adapter struct {
 	db *gorm.DB
